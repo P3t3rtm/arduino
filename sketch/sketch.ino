@@ -62,7 +62,7 @@ void loop() {
     ledState = !ledState;
 
     // control LED arccoding to the toggled state
-    //digitalWrite(LIGHT_PIN, ledState);
+    digitalWrite(LIGHT_PIN, ledState);
   }
 }
 

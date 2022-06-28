@@ -25,12 +25,11 @@ void loop() {
 
 
   //button state high = switch not pressed
-  if (lastButtonState == HIGH && currentButtonState == LOW && ((millis() - lasttime) > 2000)) {
+  if (lastButtonState == HIGH && currentButtonState == LOW && ((millis() - lasttime) > 5000)) {
     lasttime = millis();
 
     // toggle state of LED
     ledState = !ledState;
-
     // control LED arccoding to the toggled state
     digitalWrite(LIGHT_PIN, ledState);
   }

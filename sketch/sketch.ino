@@ -7,7 +7,7 @@ bool ledState3;
 bool lastButtonState;     // the previous state of button
 bool currentButtonState;  // the current state of button
 
-// unsigned long lasttime = 0;
+unsigned long lasttime = 0;
 unsigned long lastbuttontime = 0;
 
 void setup() {
@@ -38,31 +38,34 @@ void loop() {
 
 
   currentButtonState = digitalRead(BUTTON_PIN);
-  if (!currentButtonState && (millis() - lastbuttontime) >= 50 && lastButtonState) {
-    Serial.println("Switch Toggle Function");
-    // toggle state of LED
-    ledState = !ledState;
-    ledState2 = !ledState2;
-    ledState3 = !ledState3;
-    // control LED arccoding to the toggled state
-    if (ledState == ledState2) {
-      ledState3 = ledState;
-      digitalWrite(LIGHT_PIN, ledState);
-      lastButtonState = false;
-      lastbuttontime = millis();
-    } else if (ledState == ledState3) {
-      ledState2 = ledState;
-      digitalWrite(LIGHT_PIN, ledState);
-      lastButtonState = false;
-      lastbuttontime = millis();
-    } else if (ledState2 == ledState3) {
-      ledState = ledState2;
-      digitalWrite(LIGHT_PIN, ledState2);
-      lastButtonState = false;
-      lastbuttontime = millis();
+  if (!currentButtonState && (millis() - lastbuttontime) >= 10 && lastButtonState) {
+    if ((millis() - lasttime) >= 1000) {
+      Serial.println("Switch Toggle Function");
+      // toggle state of LED
+      ledState = !ledState;
+      ledState2 = !ledState2;
+      ledState3 = !ledState3;
+      // control LED arccoding to the toggled state
+      if (ledState == ledState2) {
+        ledState3 = ledState;
+        digitalWrite(LIGHT_PIN, ledState);
+        lastButtonState = false;
+        lastbuttontime = millis();
+      } else if (ledState == ledState3) {
+        ledState2 = ledState;
+        digitalWrite(LIGHT_PIN, ledState);
+        lastButtonState = false;
+        lastbuttontime = millis();
+      } else if (ledState2 == ledState3) {
+        ledState = ledState2;
+        digitalWrite(LIGHT_PIN, ledState2);
+        lastButtonState = false;
+        lastbuttontime = millis();
+      }
+      lasttime = millis();
     }
   }
-  if (currentButtonState) {
+  if (currentButtonState) { //if button is up position
     lastbuttontime = millis();
     lastButtonState = true;
   }
